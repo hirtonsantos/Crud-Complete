@@ -13,4 +13,4 @@ Biblioteca JSON
 RESTful API  
 SGBD PostgreSQL  
 DBeaver to connect and manipulate many types of database  
-Padrão Flask Factory as Design Pattern.  
+Project organization according to MVC pattern and use of Design Pattern Factory  
