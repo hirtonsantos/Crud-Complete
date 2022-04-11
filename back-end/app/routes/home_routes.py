@@ -1,10 +1,9 @@
-# from flask import Blueprint
-# from app.controllers import ...
+from flask import Blueprint
+from app.controllers import user_controllers
 
-# bp = Blueprint("name-route", __name__, url_prefix="/name-route")
+bp = Blueprint("users", __name__, url_prefix="/users")
 
-# bp.post("")(controllers.create)
-# bp.get("")(controllers.retrieve)
-# bp.get("/<route_id>")(controllers.retrieve_per_id)
-# bp.patch("/<route_id>")(controllers.update)
-# bp.delete("/<route_id>")(controllers.remove)
+
+bp.get("")(user_controllers.retrieve)
+bp.post("")(user_controllers.create)
+bp.delete("/<user_id>")(user_controllers.delete_user_per_id)
