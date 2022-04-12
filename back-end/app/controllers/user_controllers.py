@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from flask import request
+from xml.dom import NotFoundErr
+from flask import jsonify, request
 from app.models.user_models import User
 from psycopg2.errors import UniqueViolation
 
@@ -8,6 +9,16 @@ def retrieve():
     return {
         "data": User.users()
     }
+
+
+def get_user_by_id(user_id):
+    try:
+        response = jsonify(User.read_user_by_id(user_id)[0])
+        return response
+    except IndexError:
+        return {
+            "error": "Not found"
+        }, HTTPStatus.NOT_FOUND
 
 
 def create():
@@ -38,3 +49,34 @@ def delete_user_per_id(user_id):
         return {"error": "Not Found"}, HTTPStatus.NOT_FOUND
 
     return {}, HTTPStatus.NO_CONTENT
+
+
+def update_user_per_id(user_id):
+
+    available_keys = ["name", "email", "phone"]
+
+    data = request.get_json()
+
+    try:
+
+        for key in data.keys():
+            if key not in available_keys:
+                raise KeyError
+
+        update_user = User.update_user(data, user_id)
+
+        if not update_user:
+            raise NotFoundErr
+
+        return jsonify(update_user[0])
+
+    except KeyError:
+        wrong_keys = [key for key in data if key not in available_keys]
+
+        return {
+            "expected_keys": available_keys,
+            "wrong_keys": wrong_keys
+        }, HTTPStatus.UNPROCESSABLE_ENTITY
+
+    except NotFoundErr:
+        return {"error": "user not found"}, HTTPStatus.NOT_FOUND
