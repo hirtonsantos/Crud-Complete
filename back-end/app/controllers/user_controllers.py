@@ -7,7 +7,7 @@ from psycopg2.errors import UniqueViolation
 
 def retrieve():
     return {
-        "data": User.users()
+        "data": "User.users()"
     }
 
 
