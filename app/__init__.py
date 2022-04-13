@@ -8,9 +8,9 @@ def create_app():
 
     routes.init_app(app)
 
-    # CORS(app)
+    CORS(app)
 
-    # if __name__ == '__main__':
-    #     app.run(debug=False)
+    if __name__ == '__main__':
+        app.run(debug=False)
 
     return app
