@@ -1,6 +1,6 @@
 from flask import Flask
 from app import routes
-from flask_cors import CORS
+# from flask_cors import CORS
 
 
 def create_app():
@@ -8,7 +8,7 @@ def create_app():
 
     routes.init_app(app)
 
-    CORS(app)
+    # CORS(app)
 
     if __name__ == '__main__':
         app.run(debug=False)
