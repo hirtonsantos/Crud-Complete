@@ -5,30 +5,29 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Div, Form, DivA, DivContainer } from "./style";
 import { IoCloseCircle } from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { UpdateUserThunk } from "../../Store/modules/users/thunk";
 
 interface PopUpPrios {
-    setPopup: (valor: boolean) => void;
-    user?: User;
+  setPopup: (valor: boolean) => void;
+  user?: any;
 }
 
 interface User {
-    id?: Number;
-    username?: String;
-    email?: String;
+  id?: any;
+  name?: String | undefined;
+  email?: String;
+  phone?: String;
 }
-
 
 function PopUpEditUser({ setPopup, user }: PopUpPrios) {
   const formSchema = yup.object().shape({
-    username: yup
-      .string()
-      .required("Username obrigatório")
-      .matches(
-        /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/,
-        "Minimo 5 caracteres;Sem espaço;Deve começar com uma letra;Pode ter . - _;Não pode começar nem terminar com . - _"
-      ),
-    email: yup.string().required("E-mail obrigatório").email("E-mail invalido"),
+    name: yup.string().required("name obrigatório"),
+    email: yup.string().required("E-mail obrigatório"),
+    phone: yup.string().required("Phone obrigatório"),
   });
+
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -38,29 +37,30 @@ function PopUpEditUser({ setPopup, user }: PopUpPrios) {
     resolver: yupResolver(formSchema),
   });
 
-  // const onSubmitFunction = (data: User) => {
-  //   data = { ...data, id: user.id };
-  //   setPopup(false);
-  // };
+  const onSubmitFunction = (data: User) => {
+    dispatch(UpdateUserThunk(data, user.id));
+    setPopup(false);
+  };
+
   return (
     <DivA>
       <DivContainer>
         <Div>
-          <Form /*onSubmit={handleSubmit(onSubmitFunction)}*/>
+          <Form onSubmit={handleSubmit(onSubmitFunction)}>
             <IoCloseCircle onClick={() => setPopup(false)} />
             <h3>Editar Perfil</h3>
             <TextField
-              defaultValue={"user.username"}
+              defaultValue={user.name}
               margin="normal"
               fullWidth
               id="login-basic"
               label="Usuário"
               variant="outlined"
-              error={!!errors.username?.message}
-              {...register("username")}
+              error={!!errors.name?.message}
+              {...register("name")}
             />
             <TextField
-              defaultValue={"user.email"}
+              defaultValue={user.email}
               margin="normal"
               fullWidth
               id="login-basic"
@@ -68,6 +68,15 @@ function PopUpEditUser({ setPopup, user }: PopUpPrios) {
               variant="outlined"
               error={!!errors.email?.message}
               {...register("email")}
+            />
+            <TextField
+              defaultValue={user.phone}
+              margin="normal"
+              fullWidth
+              id="login-basic"
+              label="Phone"
+              variant="outlined"
+              {...register("phone")}
             />
             <Button type="submit" text={"Alterar"}></Button>
           </Form>

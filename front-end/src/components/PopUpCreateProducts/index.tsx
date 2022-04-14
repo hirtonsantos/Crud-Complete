@@ -5,13 +5,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Div, Form, DivA, DivContainer } from "./style";
 import { IoCloseCircle } from "react-icons/io5";
 import Button from "../Button";
+import { useDispatch } from "react-redux";
+import { addUserThunk } from "../../Store/modules/users/thunk";
 
 
 interface User {
-  id?: number;
   name: string;
-  phoneNumber: string;
-  email: number;
+  phone: string;
+  email: string;
 }
 
 interface PopUpProps {
@@ -21,9 +22,11 @@ interface PopUpProps {
 function PopUpCreateUser({ setPopup }: PopUpProps) {
   const formSchema = yup.object().shape({
     name: yup.string().required("name required"),
-    phoneNumber: yup.string().required("Telefone required"),
+    phone: yup.string().required("Telefone required"),
     email: yup.string().required("Email required"),
   });
+
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -34,7 +37,9 @@ function PopUpCreateUser({ setPopup }: PopUpProps) {
   });
 
   const onSubmitFunction = (data: User) => {
-    console.log(data);
+    console.log(data)
+    dispatch(addUserThunk(data));
+    setPopup(false);
   };
 
   const closePopUp = () => {
@@ -75,7 +80,7 @@ function PopUpCreateUser({ setPopup }: PopUpProps) {
               label="Telefone"
               type="tel"
               margin="normal"
-              {...register("phoneNumber")}
+              {...register("phone")}
               fullWidth
               InputLabelProps={{
                 shrink: true,
