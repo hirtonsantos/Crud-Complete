@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 import PopUpCreateProduct from "./components/PopUpCreateProducts";
 import PopUpRemove from "./components/PopUpDelete";
 import PopUpEditUser from "./components/PopUpEditUser";
+import PopUpUserInfo from "./components/PopUpUserInfo";
 import { api } from "./Services/api";
 
 export const App = () => {
   const [usersDatabase, setUsersDatabase] = useState<any[]>([]);
   const [popUpCreate, setPopUpCreate] = useState(false);
+  const [popUpUser, setPopUpUser] = useState(false);
   const [popUpDelete, setPopUpDelete] = useState(false);
   const [popUpUpdate, setPopUpUpdate] = useState(false);
   const [item, setItem] = useState({})
@@ -28,6 +30,11 @@ export const App = () => {
     setItem(item)
   };
 
+  const changePopUpReadValue = (item: any) => {
+    setPopUpUser(true);
+    setItem(item)
+  };
+
   useEffect(() => {
       api
         .get("/users")
@@ -39,6 +46,7 @@ export const App = () => {
 
   return (
     <Container>
+      {popUpUser && <PopUpUserInfo setPopup={setPopUpUser} user={item}/>}
       {popUpCreate && <PopUpCreateProduct setPopup={setPopUpCreate} />}
       {popUpDelete && <PopUpRemove setPopup={setPopUpDelete} user={item} />}
       {popUpUpdate && <PopUpEditUser setPopup={setPopUpUpdate} user={item}/>}
@@ -65,6 +73,7 @@ export const App = () => {
               email={item.email}
               deleteEvent={() => changePopUpDeleteValue(item)}
               updateEvent={() => changePopUpUpdateValue(item)}
+              readEvent={() => changePopUpReadValue(item)}
             />
           );
         })}
