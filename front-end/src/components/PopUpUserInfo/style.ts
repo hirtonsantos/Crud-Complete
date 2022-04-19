@@ -68,6 +68,9 @@ export const InfoUser = styled.div`
     align-items: flex-start;
     span{
       display: flex;
+      flex-direction: column;
+      align-items: baseline;
+      margin-bottom: 10px;
       p:first-child{
         font-weight: bold;
         width: 18ch;
@@ -75,6 +78,11 @@ export const InfoUser = styled.div`
         margin-right: 0px;
       }
     }
+    @media (min-width: 500px) {
+      span{
+        flex-direction: row;
+      }
+  }
 `
 
 export const Header = styled.header`
