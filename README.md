@@ -1,6 +1,6 @@
 # Crud-Complete
 
-# FrontEnd
+### FrontEnd
 
 React  
 Styled-components  
@@ -11,7 +11,7 @@ Material UI
 Components  
 Vercel  
 
-# BackEnd
+### BackEnd
 
 POO - Programming Oriented Object and Best Pratices  
 Test units with Python  
