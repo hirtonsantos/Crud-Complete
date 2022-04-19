@@ -55,6 +55,7 @@ export const DivContainer = styled.div`
   span {
     text-align: right;
     font-size: 20px;
+    margin-bottom: 10px;
   }
 `;
 
