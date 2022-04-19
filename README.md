@@ -1,7 +1,17 @@
 # Crud-Complete
 
+# FrontEnd
 
-# Back-End 
+React  
+Styled-components  
+Typescript  
+Redux  
+Redux-Thunk  
+Material UI  
+Components  
+Vercel  
+
+# BackEnd
 
 POO - Programming Oriented Object and Best Pratices  
 Test units with Python  
